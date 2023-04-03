@@ -6,9 +6,12 @@
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMainWindow>
+#include <QSettings>
+#include <QTimer>
 
 #include "OPENGL/gl.h"
 #include "OPENGL/glu.h"
+#include "qgifimage.h"
 extern "C" {
 #include "../parser.h"
 }
@@ -60,8 +63,25 @@ class MainWindow : public QMainWindow {
 
   void on_autorotate_stateChanged(int arg1);
 
+  void on_saveJPEG_clicked();
+
+  void on_saveBMP_clicked();
+
+  void on_saveGIF_clicked();
+
+  void createGif();
+
+  void saveSettings();
+
+  void loadSettings();
+
+  void drow(QString a);
+
  private:
   Ui::MainWindow *ui;
+  QSettings *settings;
+  QGifImage *pgif;
+  QTimer *gif_timer;
 };
 
 #endif  // MAINWINDOW_H

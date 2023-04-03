@@ -2,6 +2,9 @@ QT       += core gui widgets opengl openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+include(QtGifImage/gifimage/qtgifimage.pri)
+include(3rdParty/giflib.pri)
+
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.

@@ -47,5 +47,4 @@ another_report: test
 
 clean:
 	rm -rf ./lcov_report ./report
-	rm -f app *.o *.a *.gcno *.gcda index*.html *.css *.out *.gch *.cfg coverage *.out *.txt parser_tests.c test.info
-	rm -rf build-3DViwer_v1.0-Desktop_x86_darwin_generic_mach_o_64bit-Debug
+	rm -rf app *.o *.a *.gcno *.gcda index*.html *.css *.out *.gch *.cfg coverage *.out *.txt parser_tests.c test.info build*
