@@ -26,6 +26,7 @@ class MainWindow : public QMainWindow {
 
  public:
   MainWindow(QWidget *parent = nullptr);
+  int a = 0;
   ~MainWindow();
 
  private slots:
@@ -67,15 +68,15 @@ class MainWindow : public QMainWindow {
 
   void on_saveBMP_clicked();
 
-  void on_saveGIF_clicked();
-
   void createGif();
+
+  void drow(QString file_name);
+
+  void on_saveGIF_clicked();
 
   void saveSettings();
 
   void loadSettings();
-
-  void drow(QString a);
 
  private:
   Ui::MainWindow *ui;

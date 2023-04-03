@@ -6,16 +6,18 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), gif_timer(new QTimer) {
   ui->setupUi(this);
+
   settings = new QSettings("3DViewer", "3DViewer Settings", this);
-  connect(gif_timer, SIGNAL(timeout()), this, SLOT(createGif()));
   loadSettings();
+
+  connect(gif_timer, SIGNAL(timeout()), this, SLOT(createGif()));
+  connect(ui->saveGIF, &QPushButton::clicked, this,
+          &MainWindow::on_saveGIF_clicked);
 
   ui->sliderZoom->setSliderPosition(ui->widget->getZoomSize() * 100);
   ui->spinDotSize->setValue(ui->widget->getDotSize());
   ui->spinLineSize->setValue(ui->widget->getLineSize());
   ui->widget->zoomPointer = ui->sliderZoom;
-  connect(ui->saveGIF, &QPushButton::clicked, this,
-          &MainWindow::on_saveGIF_clicked);
 }
 
 MainWindow::~MainWindow() {
@@ -241,13 +243,13 @@ void MainWindow::loadSettings() {
   QString daa = (settings->value("fileName", 0).toString());
   QByteArray j = daa.toLocal8Bit();
   char *fName = j.data();
-  if (daa != "У самурая нет цели, только путь") {
-    QFile f(fName);
-    QFileInfo fileInfo(f.fileName());
-    QString filename(fileInfo.fileName());
-    ui->fileName->setText(filename);
-    ui->filePath->setText(daa);
-    ui->widget->setfilename(j);
-    drow(daa);
-  }
+  //  if (ui->pathName->text() == "У самурая нет цели, только путь") {
+  //  QFile f(fName);
+  //  QFileInfo fileInfo(f.fileName());
+  //  QString filename(fileInfo.fileName());
+  //  ui->fileName->setText(filename);
+  //  ui->filePath->setText(daa);
+  //  ui->widget->setfilename(j);
+  //  drow(daa);
+  //  }
 }
