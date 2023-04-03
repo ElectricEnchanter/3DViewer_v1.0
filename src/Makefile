@@ -6,35 +6,30 @@ OS=$(shell uname)
 ifeq ($(OS), Linux)
   LIBS=-lcheck -lsubunit -lpthread -lrt -lm -g
   CHECK_LEAKS=CK_FORK=no valgrind --leak-check=full -s --log-file=log.txt
-  OPEN_GCOV=chrome.exe coverage/src/index.html
-  OPEN_DVI=chrome.exe DVI.html
 else
   LIBS=-lcheck
   CHECK_LEAKS=no leaks -atExit --
-  OPEN_GCOV=open coverage/index.html
-  OPEN_DVI=open DVI.html
 endif
 
 all: gcov_report dvi dist install
 
-install:
+install: uninstall clean
 	rm -rf build
 	mkdir build
-	cd build && qmake6 ../frontend/viwer.pro && make > /dev/null 2>&1
+	cd build && qmake6 ../frontend/3DViwer_v1.0.pro && make > /dev/null 2>&1
+	mkdir -p ~/Applications ; cp -r build/3DViwer_v1.app ~/Applications/3DViwer_v1.app
 
-uninstall:
+uninstall: clean
 	rm -rf build
-	rm -rf build-3DViwer_v1.0-Desktop_x86_darwin_generic_mach_o_64bit-Debug
-
-dvi:
-	$(OPEN_DVI)
+	rm -rf ~/Applications/3DViwer_v1.app
 
 dist:
 	cd .. && tar -zcvf ne_smart_biber3D.tar.gz src
 
-test:
+tests:
 	checkmk clean_mode=1 parser_tests.check > parser_tests.c
 	gcc $(CFLAGS_GCOV) *.c $(LIBS)
+#gcc $(CFLAGS) $(CFLAGS_GCOV) *.c $(LIBS)
 	./a.out
 
 style:
@@ -50,8 +45,7 @@ gcov_report: test
 another_report: test
 	gcovr --html-details coverage.html
 
-rebuild: clean all
-
 clean:
 	rm -rf ./lcov_report ./report
-	rm -f app *.o *.a *.gcno *.gcda index*.html *.css *.out *.gch *.cfg coverage *.out *.txt s21_3dviewer_1_test.c test.info
+	rm -f app *.o *.a *.gcno *.gcda index*.html *.css *.out *.gch *.cfg coverage *.out *.txt parser_tests.c test.info
+	rm -rf build-3DViwer_v1.0-Desktop_x86_darwin_generic_mach_o_64bit-Debug
