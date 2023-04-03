@@ -24,7 +24,7 @@ install:
 
 uninstall:
 	rm -rf build
-	rm -rf build-viwer-Desktop_x86_darwin_generic_mach_o_64bit-Debug
+	rm -rf build-3DViwer_v1.0-Desktop_x86_darwin_generic_mach_o_64bit-Debug
 
 dvi:
 	$(OPEN_DVI)
