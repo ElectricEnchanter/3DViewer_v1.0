@@ -9,7 +9,9 @@ extern "C" {
 }
 #include <QColorDialog>
 #include <QDir>
+#include <QDoubleSpinBox>
 #include <QDragEnterEvent>
+#include <QMainWindow>
 #include <QOpenGLWidget>
 #include <QSlider>
 #include <QTimer>
@@ -51,6 +53,8 @@ class OPGWidget : public QOpenGLWidget {
   QString getFilePath();
   void setFilePath(QString newFilePath);
   QSlider *zoomPointer;
+  QDoubleSpinBox *spinPointer[3];
+  // this->spinPointer->setValue(newX);
   void setPointColor(float r, float g, float b, float a);
   void setLineColor(float r, float g, float b, float a);
   void setBgColor(float r, float g, float b, float a);
@@ -74,6 +78,7 @@ class OPGWidget : public QOpenGLWidget {
   float rLine = 0, gLine = 1, bLine = 0, aLine = 1;
   int autorotate = 0;
   float xRot = 0, yRot = 0, zRot = 0;
+  float xRotOld = 0.0, yRotOld = 0.0;
   float xMove = 0, yMove = 0, zMove = 0;
 
   void dragEnterEvent(QDragEnterEvent *event) override;

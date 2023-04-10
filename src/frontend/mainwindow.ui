@@ -49,7 +49,7 @@
       <property name="rightMargin">
        <number>0</number>
       </property>
-      <item row="1" column="1">
+      <item row="1" column="3">
        <widget class="QToolButton" name="fileDialog">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -106,6 +106,26 @@
         </item>
        </widget>
       </item>
+      <item row="11" column="0">
+       <widget class="QPushButton" name="saveJPEG">
+        <property name="text">
+         <string>Скрин JPEG</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="QLabel" name="label_13">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Автовращение:</string>
+        </property>
+       </widget>
+      </item>
       <item row="7" column="2">
        <widget class="QLabel" name="label_24">
         <property name="sizePolicy">
@@ -125,7 +145,7 @@
         </property>
        </widget>
       </item>
-      <item row="16" column="0">
+      <item row="15" column="0">
        <widget class="QLabel" name="label_15">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -144,6 +164,13 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QPushButton" name="saveBMP">
+        <property name="text">
+         <string>Скрин BMP</string>
         </property>
        </widget>
       </item>
@@ -214,23 +241,7 @@
         </property>
        </widget>
       </item>
-      <item row="17" column="2">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>100</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="15" column="2">
+      <item row="14" column="2">
        <widget class="QLabel" name="countVertex">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -249,13 +260,6 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="2">
-       <widget class="QPushButton" name="saveJPEG">
-        <property name="text">
-         <string>Скрин JPEG</string>
         </property>
        </widget>
       </item>
@@ -294,6 +298,40 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="filePath">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>252</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>PT Sans</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>У самурая нет цели, только путь</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
       <item row="9" column="3">
        <widget class="QSlider" name="sliderZoom">
         <property name="sizePolicy">
@@ -323,8 +361,8 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" rowspan="2">
-       <widget class="QLabel" name="label">
+      <item row="4" column="0" rowspan="2">
+       <widget class="QLabel" name="label_6">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -338,7 +376,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Сместить относительно:</string>
+         <string>Повернуть относительно:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -370,28 +408,6 @@
         </property>
         <property name="singleStep">
          <double>10.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" rowspan="2">
-       <widget class="QLabel" name="label_6">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>PT Sans</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Повернуть относительно:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -450,6 +466,22 @@
        </widget>
       </item>
       <item row="16" column="2">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>100</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="15" column="2">
        <widget class="QLabel" name="countFacets">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -574,21 +606,12 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="11" column="2">
+       <widget class="QPushButton" name="saveGIF">
+        <property name="text">
+         <string>Гифка</string>
         </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Maximum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>10</width>
-          <height>100</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
       <item row="8" column="0">
        <widget class="QLabel" name="label_25">
@@ -606,13 +629,6 @@
         </property>
         <property name="text">
          <string>Размер вершин:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0">
-       <widget class="QLabel" name="label_16">
-        <property name="text">
-         <string>Путь файла:</string>
         </property>
        </widget>
       </item>
@@ -666,7 +682,23 @@
         </property>
        </widget>
       </item>
-      <item row="14" column="0">
+      <item row="0" column="1">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Maximum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>10</width>
+          <height>100</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="13" column="0">
        <widget class="QLabel" name="label_12">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -688,10 +720,10 @@
         </property>
        </widget>
       </item>
-      <item row="14" column="2">
+      <item row="13" column="2">
        <widget class="QLabel" name="fileName">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -836,6 +868,22 @@
         </property>
        </widget>
       </item>
+      <item row="10" column="3">
+       <widget class="QCheckBox" name="autorotate">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item row="9" column="0">
        <widget class="QLabel" name="label_19">
         <property name="sizePolicy">
@@ -874,37 +922,25 @@
         </property>
        </widget>
       </item>
-      <item row="13" column="1" colspan="3">
-       <widget class="QLabel" name="filePath">
+      <item row="2" column="0" rowspan="2">
+       <widget class="QLabel" name="label">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>252</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="baseSize">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
         <property name="font">
          <font>
           <family>PT Sans</family>
-          <pointsize>12</pointsize>
+          <pointsize>14</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>У самурая нет цели, только путь</string>
+         <string>Сместить относительно:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -915,7 +951,7 @@
         </property>
        </widget>
       </item>
-      <item row="15" column="0">
+      <item row="14" column="0">
        <widget class="QLabel" name="label_14">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -994,43 +1030,6 @@
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="3">
-       <widget class="QPushButton" name="saveBMP">
-        <property name="text">
-         <string>Скрин BMP</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Автовращение:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QCheckBox" name="autorotate">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="saveGIF">
-        <property name="text">
-         <string>Гифка</string>
         </property>
        </widget>
       </item>

@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
   ui->spinDotSize->setValue(ui->widget->getDotSize());
   ui->spinLineSize->setValue(ui->widget->getLineSize());
   ui->widget->zoomPointer = ui->sliderZoom;
+  ui->widget->spinPointer[0] = ui->spinRotX;
+  ui->widget->spinPointer[1] = ui->spinRotY;
+  ui->widget->spinPointer[2] = ui->spinRotZ;
 }
 
 MainWindow::~MainWindow() {
@@ -171,14 +174,14 @@ void MainWindow::on_autorotate_stateChanged(int arg1) {
 void MainWindow::on_saveJPEG_clicked() {
   QImage img = ui->widget->grabFramebuffer();
   QString dirname =
-      QFileDialog::getSaveFileName(this, "Выбирите папку", "/", ".jpeg");
+      QFileDialog::getSaveFileName(this, "Выбeрите папку", "/", ".jpeg");
   img.save(dirname + ".jpeg", "JPEG");
 }
 
 void MainWindow::on_saveBMP_clicked() {
   QImage img = ui->widget->grabFramebuffer();
   QString dirname =
-      QFileDialog::getSaveFileName(this, "Выбирите папку", "/", ".bmp");
+      QFileDialog::getSaveFileName(this, "Выбeрите папку", "/", ".bmp");
   img.save(dirname + ".bmp", "BMP");
 }
 
@@ -191,7 +194,7 @@ void MainWindow::createGif() {
   gif_timer->stop();
   ui->saveGIF->setText("Гифка");
   QString dirname =
-      QFileDialog::getSaveFileName(this, "Выбирите папку", "/", ".gif");
+      QFileDialog::getSaveFileName(this, "Выбeрите папку", "/", ".gif");
   pgif->save(dirname + ".gif");
 }
 
@@ -205,10 +208,6 @@ void MainWindow::on_saveGIF_clicked() {
 }
 
 void MainWindow::saveSettings() {
-  //  float r, g, b, a;
-  //  settings->setValue("Color Back", ui->widget->getLineColor());
-  //  settings->setValue("Color Dot", ui->widget->colorD);
-  //  settings->setValue("Color Line", ui->widget->colorL);
   settings->setValue("Type Point", ui->widget->getBoxVertexInd());
   settings->setValue("Type Line", ui->widget->getBoxFacetsInd());
   settings->setValue("Type Projection", ui->widget->getBoxProjectionInd());
@@ -216,15 +215,38 @@ void MainWindow::saveSettings() {
   settings->setValue("Line Size", ui->widget->getLineSize());
   settings->setValue("Zoom", ui->widget->getZoomSize());
 
-  //  settings->setValue("Point Color", ui->widget->getPointColor(&r, &g, &b,
-  //  &a));
+  float colorSet[4];
+  ui->widget->getPointColor(&colorSet[0], &colorSet[1], &colorSet[2],
+                            &colorSet[3]);
 
-  //  settings->setValue("Move X", ui->widget->getxMove());
-  //  settings->setValue("Move Y", ui->widget->getyMove());
-  //  settings->setValue("Move Z", ui->widget->getzMove());
-  //  settings->setValue("Rot X", ui->widget->getxRot());
-  //  settings->setValue("Rot Y", ui->widget->getyRot());
-  //  settings->setValue("Rot Z", ui->widget->getzRot());
+  for (int i = 0; i < 4; i++) {
+    QString tmp = "Point Color " + QString::number(i);
+    settings->setValue(tmp, colorSet[i]);
+  }
+
+  ui->widget->getBgColor(&colorSet[0], &colorSet[1], &colorSet[2],
+                         &colorSet[3]);
+
+  for (int i = 0; i < 4; i++) {
+    QString tmp = "Bg Color " + QString::number(i);
+    settings->setValue(tmp, colorSet[i]);
+  }
+
+  ui->widget->getLineColor(&colorSet[0], &colorSet[1], &colorSet[2],
+                           &colorSet[3]);
+
+  for (int i = 0; i < 4; i++) {
+    QString tmp = "Line Color " + QString::number(i);
+    settings->setValue(tmp, colorSet[i]);
+  }
+
+  settings->setValue("Move X", ui->widget->getxMove());
+  settings->setValue("Move Y", ui->widget->getyMove());
+  settings->setValue("Move Z", ui->widget->getzMove());
+
+  settings->setValue("Rot X", ui->widget->getxRot());
+  settings->setValue("Rot Y", ui->widget->getyRot());
+  settings->setValue("Rot Z", ui->widget->getzRot());
 
   settings->setValue("File Path", ui->filePath->text());
   settings->setValue("File Name", ui->fileName->text());
@@ -241,22 +263,44 @@ void MainWindow::loadSettings() {
     ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
     ui->filePath->setText(settings->value("File Path", 0).toString());
     ui->fileName->setText(settings->value("File Name", 0).toString());
-    ui->sliderZoom->setValue(settings->value("Zoom", 0).toInt());
+    // ui->sliderZoom->setValue(settings->value("Zoom", 0).toFloat());
+    ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
     drow(settings->value("File Path", 0).toString());
 
-    //    ui->spinMoveX->setValue(settings->value("Move X", 0).toFloat());
-    //    ui->spinMoveY->setValue(settings->value("Move Y", 0).toFloat());
-    //    ui->spinMoveZ->setValue(settings->value("Move Z", 0).toFloat());
-    //    ui->spinRotX->setValue(settings->value("Rot X", 0).toFloat());
-    //    ui->spinRotY->setValue(settings->value("Rot Y", 0).toFloat());
-    //    ui->spinRotZ->setValue(settings->value("Rot Z", 0).toFloat());
+    float colorSet[4];
+    for (int i = 0; i < 4; i++) {
+      QString tmp = "Point Color " + QString::number(i);
+      colorSet[i] = settings->value(tmp, 0).toFloat();
+    }
+
+    ui->widget->setPointColor(colorSet[0], colorSet[1], colorSet[2],
+                              colorSet[3]);
+    for (int i = 0; i < 4; i++) {
+      QString tmp = "Bg Color " + QString::number(i);
+      colorSet[i] = settings->value(tmp, 0).toFloat();
+    }
+    ui->widget->setBgColor(colorSet[0], colorSet[1], colorSet[2], colorSet[3]);
+    for (int i = 0; i < 4; i++) {
+      QString tmp = "Line Color " + QString::number(i);
+      colorSet[i] = settings->value(tmp, 0).toFloat();
+    }
+    ui->widget->setLineColor(colorSet[0], colorSet[1], colorSet[2],
+                             colorSet[3]);
+
+    ui->widget->setxRot(settings->value("Move X", 0).toFloat());
+    ui->widget->setyRot(settings->value("Move Y", 0).toFloat());
+    ui->widget->setzRot(settings->value("Move Z", 0).toFloat());
+    ui->spinMoveX->setValue(settings->value("Move X", 0).toFloat());
+    ui->spinMoveY->setValue(settings->value("Move Y", 0).toFloat());
+    ui->spinMoveZ->setValue(settings->value("Move Z", 0).toFloat());
+
+    ui->widget->setxRot(settings->value("Rot X", 0).toFloat());
+    ui->widget->setyRot(settings->value("Rot Y", 0).toFloat());
+    ui->widget->setzRot(settings->value("Rot Z", 0).toFloat());
+    ui->spinRotX->setValue(settings->value("Rot X", 0).toFloat());
+    ui->spinRotY->setValue(settings->value("Rot Y", 0).toFloat());
+    ui->spinRotZ->setValue(settings->value("Rot Z", 0).toFloat());
   }
-  //   QVariant var = settings->value("Color Back", QColor(Qt::white));
-  //   QVariant var1 = settings->value("Color Dot", QColor(Qt::white));
-  //   QVariant var2 = settings->value("Color Line", QColor(Qt::white));
-  //   ui->widget->colorBack = var.value<QColor>();
-  //   ui->widget->colorD = var1.value<QColor>();
-  //   ui->widget->colorL = var2.value<QColor>();
 }
 
 void MainWindow::getNameChange(QString newName) {

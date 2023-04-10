@@ -21,7 +21,7 @@ install:
 
 uninstall: clean
 	rm -rf build
-	rm -rf ~/Applications/3DViwer.app
+	rm -rf ~/Applications/3DViwer_v1.app
 
 dist:
 	cd .. && tar -zcvf ne_smart_biber3D.tar.gz src

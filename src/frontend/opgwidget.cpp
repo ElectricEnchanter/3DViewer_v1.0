@@ -9,6 +9,8 @@ OPGWidget::OPGWidget(QWidget *parent) : QOpenGLWidget(parent) {
   setAcceptDrops(true);
   this->obj.count_of_facets = 0;
   this->obj.count_of_vertex = 0;
+  //  mPos.setX(0);  // delete
+  //  mPos.setY(0);  // delete
 }
 
 OPGWidget::~OPGWidget() {
@@ -38,8 +40,11 @@ void OPGWidget::paintGL() {
   // вращение по осям
   if (autorotate) {
     yRot -= 0.1;
+    xRot -= 0.1;
     glRotatef(20, xRot, yRot, zRot);
-    update();
+    this->spinPointer[0]->setValue(xRot);
+    this->spinPointer[1]->setValue(yRot);
+    this->spinPointer[2]->setValue(zRot);
   }
 
   //тут кручение мышОй
@@ -124,11 +129,21 @@ void OPGWidget::dropEvent(QDropEvent *event) {
   }
 }
 
-void OPGWidget::mousePressEvent(QMouseEvent *mo) { mPos = mo->pos(); }
+void OPGWidget::mousePressEvent(QMouseEvent *mo) {
+  mPos = mo->pos();
+  xRotOld = xRot;
+  yRotOld = yRot;
+}
 
 void OPGWidget::mouseMoveEvent(QMouseEvent *mo) {
-  xRot = (1 / M_PI * (mo->pos().y() - mPos.y()));
-  yRot = (1 / M_PI * (mo->pos().x() - mPos.x()));
+  xRot = (-1 / M_PI * (mo->pos().y() - mPos.y()));
+  yRot = (-1 / M_PI * (mo->pos().x() - mPos.x()));
+
+  xRot += xRotOld;
+  yRot += yRotOld;
+
+  this->spinPointer[0]->setValue(xRot);
+  this->spinPointer[1]->setValue(yRot);
   update();
 }
 
@@ -201,7 +216,7 @@ float OPGWidget::getzMove() { return this->zMove; }
 
 void OPGWidget::setzMove(float newZ) { this->zMove = newZ; }
 
-float OPGWidget::getxRot() { return this->xMove; }
+float OPGWidget::getxRot() { return this->xRot; }
 
 void OPGWidget::setxRot(float newX) { this->xRot = newX; }
 
