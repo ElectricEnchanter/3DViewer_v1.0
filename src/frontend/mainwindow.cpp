@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), gif_timer(new QTimer) {
   ui->setupUi(this);
 
-  settings = new QSettings("3DViewer", "3DViewer Settings", this);
   loadSettings();
 
   connect(gif_timer, SIGNAL(timeout()), this, SLOT(createGif()));
@@ -204,6 +203,7 @@ void MainWindow::saveSettings() {
   //  settings->setValue("Color Back", ui->widget->getLineColor());
   //  settings->setValue("Color Dot", ui->widget->colorD);
   //  settings->setValue("Color Line", ui->widget->colorL);
+
   settings->setValue("Type Line", ui->widget->getBoxFacetsInd());
   settings->setValue("Type Point", ui->widget->getBoxVertexInd());
   settings->setValue("Type Projection", ui->widget->getBoxProjectionInd());
@@ -222,34 +222,37 @@ void MainWindow::saveSettings() {
 }
 
 void MainWindow::loadSettings() {
-  //  QVariant var = settings->value("Color Back", QColor(Qt::white));
-  //  QVariant var1 = settings->value("Color Dot", QColor(Qt::white));
-  //  QVariant var2 = settings->value("Color Line", QColor(Qt::white));
-  //  ui->widget->colorBack = var.value<QColor>();
-  //  ui->widget->colorD = var1.value<QColor>();
-  //  ui->widget->colorL = var2.value<QColor>();
-  ui->boxFacets->setCurrentIndex(settings->value("Type Line", 0).toInt());
-  ui->boxVertex->setCurrentIndex(settings->value("Type Point", 0).toInt());
-  ui->boxProjection->setCurrentIndex(
-      settings->value("Type Projection", 0).toInt());
-  ui->spinDotSize->setValue(settings->value("Dot Size", 0).toFloat());
-  ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
-  ui->spinMoveX->setValue(settings->value("Move X", 0).toFloat());
-  ui->spinMoveY->setValue(settings->value("Move Y", 0).toFloat());
-  ui->spinMoveZ->setValue(settings->value("Move Z", 0).toFloat());
-  ui->spinRotX->setValue(settings->value("Rot X", 0).toFloat());
-  ui->spinRotY->setValue(settings->value("Rot Y", 0).toFloat());
-  ui->spinRotZ->setValue(settings->value("Rot Z", 0).toFloat());
-  QString daa = (settings->value("fileName", 0).toString());
-  QByteArray j = daa.toLocal8Bit();
-  char *fName = j.data();
-  //  if (ui->pathName->text() == "У самурая нет цели, только путь") {
-  //  QFile f(fName);
-  //  QFileInfo fileInfo(f.fileName());
-  //  QString filename(fileInfo.fileName());
-  //  ui->fileName->setText(filename);
-  //  ui->filePath->setText(daa);
-  //  ui->widget->setfilename(j);
-  //  drow(daa);
-  //  }
+  settings = new QSettings("3DViewer_v1.00", "3DViewer Settings", this);
+  if (settings->status() == QSettings::NoError) {
+    ui->boxFacets->setCurrentIndex(settings->value("Type Line", 0).toInt());
+    ui->boxVertex->setCurrentIndex(settings->value("Type Point", 0).toInt());
+    ui->boxProjection->setCurrentIndex(
+        settings->value("Type Projection", 0).toInt());
+    ui->spinDotSize->setValue(settings->value("Dot Size", 0).toFloat());
+    ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
+    ui->spinMoveX->setValue(settings->value("Move X", 0).toFloat());
+    ui->spinMoveY->setValue(settings->value("Move Y", 0).toFloat());
+    ui->spinMoveZ->setValue(settings->value("Move Z", 0).toFloat());
+    ui->spinRotX->setValue(settings->value("Rot X", 0).toFloat());
+    ui->spinRotY->setValue(settings->value("Rot Y", 0).toFloat());
+    ui->spinRotZ->setValue(settings->value("Rot Z", 0).toFloat());
+  }
+  //   QVariant var = settings->value("Color Back", QColor(Qt::white));
+  //   QVariant var1 = settings->value("Color Dot", QColor(Qt::white));
+  //   QVariant var2 = settings->value("Color Line", QColor(Qt::white));
+  //   ui->widget->colorBack = var.value<QColor>();
+  //   ui->widget->colorD = var1.value<QColor>();
+  //   ui->widget->colorL = var2.value<QColor>();
+  //   QString daa = (settings->value("fileName", 0).toString());
+  //   QByteArray j = daa.toLocal8Bit();
+  //  char *fName = j.data();
+  //   if (ui->pathName->text() == "У самурая нет цели, только путь") {
+  //   QFile f(fName);
+  //   QFileInfo fileInfo(f.fileName());
+  //   QString filename(fileInfo.fileName());
+  //   ui->fileName->setText(filename);
+  //   ui->filePath->setText(daa);
+  //   ui->widget->setfilename(j);
+  //   drow(daa);
+  //   }
 }

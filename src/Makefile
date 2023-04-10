@@ -13,11 +13,11 @@ endif
 
 all: gcov_report dvi dist install
 
-install: uninstall clean
+install:
 	rm -rf build
 	mkdir build
-	cd build && qmake6 ../frontend/3DViwer.pro && make > /dev/null 2>&1
-	mkdir -p ~/Applications ; cp -r build/3DViwer.app ~/Applications/3DViwer.app
+	cd build && qmake6 ../frontend/3DViwer_v1.0.pro && make > /dev/null 2>&1
+	mkdir -p ~/Applications; cp -r build/3DViwer_v1.app ~/Applications/3DViwer_v1.app
 
 uninstall: clean
 	rm -rf build

@@ -3,7 +3,7 @@
 #include <GLUT/glut.h>
 #include <OpenGL/gl.h>
 
-#include <QColorDialog>
+//#include <QColorDialog>
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QSettings>
@@ -11,12 +11,12 @@
 
 #include "OPENGL/gl.h"
 #include "OPENGL/glu.h"
+#include "opgwidget.h"
 #include "qgifimage.h"
+
 extern "C" {
 #include "../parser.h"
 }
-
-#include "opgwidget.h"
 
 QT_BEGIN_NAMESPACE namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

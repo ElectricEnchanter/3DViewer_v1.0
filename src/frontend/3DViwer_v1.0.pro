@@ -2,8 +2,7 @@ QT       += core gui widgets opengl openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-include(QtGifImage/gifimage/qtgifimage.pri)
-include(3rdParty/giflib.pri)
+include(./QtGifImage/gifimage/qtgifimage.pri)
 
 CONFIG += c++17
 
@@ -20,6 +19,7 @@ SOURCES += \
 HEADERS += \
     ../parser.h \
     mainwindow.h \
+#    QtGifImage/gifimage/qgifimage.h \
     opgwidget.h
 
 FORMS += \

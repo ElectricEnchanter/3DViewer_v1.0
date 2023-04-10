@@ -70,7 +70,7 @@ class OPGWidget : public QOpenGLWidget {
   float rPoints = 0, gPoints = 0, bPoints = 1, aPoints = 1;
   float rLine = 0, gLine = 1, bLine = 0, aLine = 1;
   int autorotate = 0;
-  float xRot, yRot, zRot;
+  float xRot = 0, yRot = 0, zRot = 0;
   float xMove = 0, yMove = 0, zMove = 0;
   void mousePressEvent(QMouseEvent *) override;
   void mouseMoveEvent(QMouseEvent *) override;
