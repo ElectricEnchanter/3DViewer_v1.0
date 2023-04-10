@@ -6,6 +6,7 @@ OPGWidget::OPGWidget(QWidget *parent) : QOpenGLWidget(parent) {
   QObject::connect(this, SIGNAL(wheelUpSig(int)), this, SLOT(wheelUp()));
   QObject::connect(this, SIGNAL(wheelDownSig(int)), this, SLOT(wheelDown()));
 
+  setAcceptDrops(true);
   this->obj.count_of_facets = 0;
   this->obj.count_of_vertex = 0;
 }
@@ -102,6 +103,25 @@ void OPGWidget::resizeGL(int w, int h) {
   //  glViewport(0, 0, w, h);
   //  glMatrixMode(GL_PROJECTION);
   //  glLoadIdentity();
+}
+
+void OPGWidget::dragEnterEvent(QDragEnterEvent *event) { event->accept(); }
+void OPGWidget::dragLeaveEvent(QDragLeaveEvent *event) { event->accept(); }
+void OPGWidget::dragMoveEvent(QDragMoveEvent *event) { event->accept(); }
+void OPGWidget::dropEvent(QDropEvent *event) {
+  {
+    QStringList accepted_types;
+    accepted_types << "obj";
+    foreach (const QUrl &url, event->mimeData()->urls()) {
+      QString fname = url.toLocalFile();
+      QFileInfo info(fname);
+      if (info.exists()) {
+        if (accepted_types.contains(info.suffix().trimmed(),
+                                    Qt::CaseInsensitive))
+          emit nameChange(fname);
+      }
+    }
+  }
 }
 
 void OPGWidget::mousePressEvent(QMouseEvent *mo) { mPos = mo->pos(); }

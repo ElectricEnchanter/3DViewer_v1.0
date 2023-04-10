@@ -13,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->saveGIF, &QPushButton::clicked, this,
           &MainWindow::on_saveGIF_clicked);
 
+  connect(ui->saveGIF, &QPushButton::clicked, this,
+          &MainWindow::on_saveGIF_clicked);
+
+  connect(ui->widget, &OPGWidget::nameChange, this, &MainWindow::getNameChange);
+
   ui->sliderZoom->setSliderPosition(ui->widget->getZoomSize() * 100);
   ui->spinDotSize->setValue(ui->widget->getDotSize());
   ui->spinLineSize->setValue(ui->widget->getLineSize());
@@ -27,8 +32,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_fileDialog_clicked() {
-  QString file_name = QFileDialog::getOpenFileName(this, "Open a file", "/");
-  QByteArray file_name_buf = file_name.toLocal8Bit();
+  QString file_path = QFileDialog::getOpenFileName(this, "Open a file", "/");
+  QByteArray file_name_buf = file_path.toLocal8Bit();
   char *fileName = file_name_buf.data();
 
   settings->setValue("fileName", fileName);
@@ -39,14 +44,14 @@ void MainWindow::on_fileDialog_clicked() {
 
   if (*fileName) {
     ui->fileName->setText(filename);
-    ui->filePath->setText(file_name);
-    ui->widget->setfilename(file_name);
+    ui->filePath->setText(file_path);
+    ui->widget->setfilename(file_path);
 
-    drow(file_name);
+    drow(file_path);
   }
 }
 
-void MainWindow::drow(QString file_name) {
+void MainWindow::drow(QString file_path) {
   if (ui->widget->getStartFlag() != 0) {
     remove_matrix(&(ui->widget->obj.matrix_3d));
     remove_massive_of_polygons(&(ui->widget->obj.polygons));
@@ -54,7 +59,7 @@ void MainWindow::drow(QString file_name) {
   ui->widget->obj.count_of_vertex = 0;
   ui->widget->obj.count_of_facets = 0;
 
-  QByteArray a = file_name.toLocal8Bit();
+  QByteArray a = file_path.toLocal8Bit();
   char *aa = a.data();
   first_parcer_of_file(aa, &ui->widget->obj);
   ui->countVertex->setText(QString::number(ui->widget->obj.count_of_vertex));
@@ -200,25 +205,29 @@ void MainWindow::on_saveGIF_clicked() {
 }
 
 void MainWindow::saveSettings() {
+  //  float r, g, b, a;
   //  settings->setValue("Color Back", ui->widget->getLineColor());
   //  settings->setValue("Color Dot", ui->widget->colorD);
   //  settings->setValue("Color Line", ui->widget->colorL);
-
-  settings->setValue("Type Line", ui->widget->getBoxFacetsInd());
   settings->setValue("Type Point", ui->widget->getBoxVertexInd());
+  settings->setValue("Type Line", ui->widget->getBoxFacetsInd());
   settings->setValue("Type Projection", ui->widget->getBoxProjectionInd());
   settings->setValue("Dot Size", ui->widget->getDotSize());
   settings->setValue("Line Size", ui->widget->getLineSize());
+  settings->setValue("Zoom", ui->widget->getZoomSize());
 
-  settings->setValue("Move X", ui->widget->getxMove());
-  settings->setValue("Move Y", ui->widget->getyMove());
-  settings->setValue("Move Z", ui->widget->getzMove());
-  settings->setValue("Rot X", ui->widget->getxRot());
-  settings->setValue("Rot Y", ui->widget->getyRot());
-  settings->setValue("Rot Z", ui->widget->getzRot());
+  //  settings->setValue("Point Color", ui->widget->getPointColor(&r, &g, &b,
+  //  &a));
 
-  //  settings->setValue("File Name", ui->filePath->text());
-  //  settings->setValue("File_Name", file_name);
+  //  settings->setValue("Move X", ui->widget->getxMove());
+  //  settings->setValue("Move Y", ui->widget->getyMove());
+  //  settings->setValue("Move Z", ui->widget->getzMove());
+  //  settings->setValue("Rot X", ui->widget->getxRot());
+  //  settings->setValue("Rot Y", ui->widget->getyRot());
+  //  settings->setValue("Rot Z", ui->widget->getzRot());
+
+  settings->setValue("File Path", ui->filePath->text());
+  settings->setValue("File Name", ui->fileName->text());
 }
 
 void MainWindow::loadSettings() {
@@ -230,12 +239,17 @@ void MainWindow::loadSettings() {
         settings->value("Type Projection", 0).toInt());
     ui->spinDotSize->setValue(settings->value("Dot Size", 0).toFloat());
     ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
-    ui->spinMoveX->setValue(settings->value("Move X", 0).toFloat());
-    ui->spinMoveY->setValue(settings->value("Move Y", 0).toFloat());
-    ui->spinMoveZ->setValue(settings->value("Move Z", 0).toFloat());
-    ui->spinRotX->setValue(settings->value("Rot X", 0).toFloat());
-    ui->spinRotY->setValue(settings->value("Rot Y", 0).toFloat());
-    ui->spinRotZ->setValue(settings->value("Rot Z", 0).toFloat());
+    ui->filePath->setText(settings->value("File Path", 0).toString());
+    ui->fileName->setText(settings->value("File Name", 0).toString());
+    ui->sliderZoom->setValue(settings->value("Zoom", 0).toInt());
+    drow(settings->value("File Path", 0).toString());
+
+    //    ui->spinMoveX->setValue(settings->value("Move X", 0).toFloat());
+    //    ui->spinMoveY->setValue(settings->value("Move Y", 0).toFloat());
+    //    ui->spinMoveZ->setValue(settings->value("Move Z", 0).toFloat());
+    //    ui->spinRotX->setValue(settings->value("Rot X", 0).toFloat());
+    //    ui->spinRotY->setValue(settings->value("Rot Y", 0).toFloat());
+    //    ui->spinRotZ->setValue(settings->value("Rot Z", 0).toFloat());
   }
   //   QVariant var = settings->value("Color Back", QColor(Qt::white));
   //   QVariant var1 = settings->value("Color Dot", QColor(Qt::white));
@@ -243,16 +257,15 @@ void MainWindow::loadSettings() {
   //   ui->widget->colorBack = var.value<QColor>();
   //   ui->widget->colorD = var1.value<QColor>();
   //   ui->widget->colorL = var2.value<QColor>();
-  //   QString daa = (settings->value("fileName", 0).toString());
-  //   QByteArray j = daa.toLocal8Bit();
-  //  char *fName = j.data();
-  //   if (ui->pathName->text() == "У самурая нет цели, только путь") {
-  //   QFile f(fName);
-  //   QFileInfo fileInfo(f.fileName());
-  //   QString filename(fileInfo.fileName());
-  //   ui->fileName->setText(filename);
-  //   ui->filePath->setText(daa);
-  //   ui->widget->setfilename(j);
-  //   drow(daa);
-  //   }
+}
+
+void MainWindow::getNameChange(QString newName) {
+  ui->filePath->setText(newName);
+
+  QFile f(newName);
+  QFileInfo fileInfo(f.fileName());
+  QString fileName(fileInfo.fileName());
+
+  ui->fileName->setText(fileName);
+  drow(newName);
 }

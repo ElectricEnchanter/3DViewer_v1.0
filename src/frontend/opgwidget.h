@@ -9,6 +9,7 @@ extern "C" {
 }
 #include <QColorDialog>
 #include <QDir>
+#include <QDragEnterEvent>
 #include <QOpenGLWidget>
 #include <QSlider>
 #include <QTimer>
@@ -47,6 +48,8 @@ class OPGWidget : public QOpenGLWidget {
   void setBoxFacetsInd(int newBoxFacetsInd);
   int getBoxProjectionInd();
   void setBoxProjectionInd(int newBoxFacetsInd);
+  QString getFilePath();
+  void setFilePath(QString newFilePath);
   QSlider *zoomPointer;
   void setPointColor(float r, float g, float b, float a);
   void setLineColor(float r, float g, float b, float a);
@@ -72,18 +75,26 @@ class OPGWidget : public QOpenGLWidget {
   int autorotate = 0;
   float xRot = 0, yRot = 0, zRot = 0;
   float xMove = 0, yMove = 0, zMove = 0;
+
+  void dragEnterEvent(QDragEnterEvent *event) override;
+  void dragLeaveEvent(QDragLeaveEvent *event) override;
+  void dragMoveEvent(QDragMoveEvent *event) override;
+  void dropEvent(QDropEvent *event) override;
+
   void mousePressEvent(QMouseEvent *) override;
   void mouseMoveEvent(QMouseEvent *) override;
+
   void resizeGL(int w, int h) override;
   void initializeGL() override;
   void paintGL() override;
   void wheelEvent(QWheelEvent *event) override;
-  float zoom_size = 0.5;
+  float zoom_size = 0.1;
   int flag_first_start = 0;
 
  signals:
   void wheelUpSig(int count);
   void wheelDownSig(int count);
+  void nameChange(QString n);
 
  private slots:
   void wheelUp();
