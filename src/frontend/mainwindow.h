@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QSettings>
+#include <QStatusTipEvent>
 #include <QTimer>
 
 #include "OPENGL/gl.h"
@@ -77,14 +78,21 @@ class MainWindow : public QMainWindow {
 
   void loadSettings();
 
+  void mousePressEvent(QMouseEvent *);
+
+  void mouseReleaseEvent(QMouseEvent *);
+
  private:
   Ui::MainWindow *ui;
   QSettings *settings;
   QGifImage *pgif;
   QTimer *gif_timer;
+  //  int time;
+  //  QTimer *timeqr;
 
  public slots:
   void getNameChange(QString newName);
+  //  void tipSlot();
 };
 
 #endif  // MAINWINDOW_H

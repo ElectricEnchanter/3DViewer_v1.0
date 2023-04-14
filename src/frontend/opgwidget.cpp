@@ -9,8 +9,6 @@ OPGWidget::OPGWidget(QWidget *parent) : QOpenGLWidget(parent) {
   setAcceptDrops(true);
   this->obj.count_of_facets = 0;
   this->obj.count_of_vertex = 0;
-  //  mPos.setX(0);  // delete
-  //  mPos.setY(0);  // delete
 }
 
 OPGWidget::~OPGWidget() {
@@ -29,8 +27,8 @@ void OPGWidget::initializeGL() {
 void OPGWidget::paintGL() {
   glClearColor(rBg, gBg, bBg, aBg);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
 
   float zoom_size = this->getZoomSize();
   glScalef(zoom_size, zoom_size, zoom_size);
@@ -64,10 +62,6 @@ void OPGWidget::paintGL() {
   else if (this->boxProjectionInd == 1)
     //    glOrtho(-1, 1, -1, 1, -10, 1);
     glOrtho(-2, 2, -2, 2, -5, 100);
-
-  // еще разные прессеты
-  //  gluPerspective(60.0, 1.0, 1.5, 20.0);
-  //  glFrustum(-1.0, 1.0, -1.0, -1.0, 3.0, 500.0);
 
   // points
   glPointSize(this->dotSize);
@@ -284,3 +278,9 @@ int OPGWidget::getStartFlag() { return this->flag_first_start; }
 void OPGWidget::setAutorotate(int status) { this->autorotate = status; }
 
 int OPGWidget::getAutorotate() { return this->autorotate; }
+
+QString OPGWidget::getFilePath() { return this->filePath; }
+
+void OPGWidget::setFilePath(QString newFilePath) {
+  this->filePath = newFilePath;
+}

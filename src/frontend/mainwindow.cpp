@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), gif_timer(new QTimer) {
   ui->setupUi(this);
 
-  loadSettings();
-
   connect(gif_timer, SIGNAL(timeout()), this, SLOT(createGif()));
   connect(ui->saveGIF, &QPushButton::clicked, this,
           &MainWindow::on_saveGIF_clicked);
@@ -17,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
           &MainWindow::on_saveGIF_clicked);
 
   connect(ui->widget, &OPGWidget::nameChange, this, &MainWindow::getNameChange);
+  //  settings = new QSettings("settings.ini", QSettings::IniFormat);
+  loadSettings();
 
   ui->sliderZoom->setSliderPosition(ui->widget->getZoomSize() * 100);
   ui->spinDotSize->setValue(ui->widget->getDotSize());
@@ -25,10 +25,14 @@ MainWindow::MainWindow(QWidget *parent)
   ui->widget->spinPointer[0] = ui->spinRotX;
   ui->widget->spinPointer[1] = ui->spinRotY;
   ui->widget->spinPointer[2] = ui->spinRotZ;
+
+  QString path = ui->widget->getFilePath();
+  ui->statusBar->showMessage("Путь:  " + path);
 }
 
 MainWindow::~MainWindow() {
   saveSettings();
+
   if (pgif) delete pgif;
   delete gif_timer;
   delete ui;
@@ -39,16 +43,14 @@ void MainWindow::on_fileDialog_clicked() {
   QByteArray file_name_buf = file_path.toLocal8Bit();
   char *fileName = file_name_buf.data();
 
-  settings->setValue("fileName", fileName);
-
   QFile f(fileName);
   QFileInfo fileInfo(f.fileName());
   QString filename(fileInfo.fileName());
 
   if (*fileName) {
     ui->fileName->setText(filename);
-    ui->filePath->setText(file_path);
-    ui->widget->setfilename(file_path);
+    ui->widget->setFilePath(file_path);
+    ui->widget->setfilename(filename);
 
     drow(file_path);
   }
@@ -74,6 +76,7 @@ void MainWindow::drow(QString file_path) {
                              &ui->widget->obj.polygons);
   second_parcer_of_file(aa, &ui->widget->obj);
   ui->widget->setStartFlag(1);
+  ui->widget->update();
 }
 
 void MainWindow::on_spinMoveX_valueChanged(double arg1) {
@@ -187,6 +190,23 @@ void MainWindow::on_saveBMP_clicked() {
 
 void MainWindow::createGif() {
   if (pgif->frameCount() < 50) {
+    switch (pgif->frameCount()) {
+      case 10:
+        ui->saveGIF->setText("5 sec. left");
+        break;
+      case 20:
+        ui->saveGIF->setText("4 sec. left");
+        break;
+      case 30:
+        ui->saveGIF->setText("3 sec. left");
+        break;
+      case 40:
+        ui->saveGIF->setText("2 sec. left");
+        break;
+      case 49:
+        ui->saveGIF->setText("1 sec. left");
+        break;
+    }
     QImage frame = ui->widget->grabFramebuffer();
     pgif->addFrame(frame.scaled(640, 480));
     return;
@@ -240,6 +260,7 @@ void MainWindow::saveSettings() {
     settings->setValue(tmp, colorSet[i]);
   }
 
+  qDebug() << "333333";
   settings->setValue("Move X", ui->widget->getxMove());
   settings->setValue("Move Y", ui->widget->getyMove());
   settings->setValue("Move Z", ui->widget->getzMove());
@@ -248,24 +269,25 @@ void MainWindow::saveSettings() {
   settings->setValue("Rot Y", ui->widget->getyRot());
   settings->setValue("Rot Z", ui->widget->getzRot());
 
-  settings->setValue("File Path", ui->filePath->text());
   settings->setValue("File Name", ui->fileName->text());
 }
 
 void MainWindow::loadSettings() {
   settings = new QSettings("3DViewer_v1.00", "3DViewer Settings", this);
+
   if (settings->status() == QSettings::NoError) {
     ui->boxFacets->setCurrentIndex(settings->value("Type Line", 0).toInt());
     ui->boxVertex->setCurrentIndex(settings->value("Type Point", 0).toInt());
     ui->boxProjection->setCurrentIndex(
         settings->value("Type Projection", 0).toInt());
+
     ui->spinDotSize->setValue(settings->value("Dot Size", 0).toFloat());
     ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
-    ui->filePath->setText(settings->value("File Path", 0).toString());
     ui->fileName->setText(settings->value("File Name", 0).toString());
-    // ui->sliderZoom->setValue(settings->value("Zoom", 0).toFloat());
     ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
-    drow(settings->value("File Path", 0).toString());
+    QString s = settings->value("File Name", 0).toString();
+    qDebug() << s;
+    if (s != "0") drow(settings->value("File Path", 0).toString());
 
     float colorSet[4];
     for (int i = 0; i < 4; i++) {
@@ -304,7 +326,7 @@ void MainWindow::loadSettings() {
 }
 
 void MainWindow::getNameChange(QString newName) {
-  ui->filePath->setText(newName);
+  ui->widget->setFilePath(newName);
 
   QFile f(newName);
   QFileInfo fileInfo(f.fileName());
@@ -312,4 +334,13 @@ void MainWindow::getNameChange(QString newName) {
 
   ui->fileName->setText(fileName);
   drow(newName);
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+  ui->statusBar->showMessage("У самурая нет цели, только путь.");
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+  QString path = ui->widget->getFilePath();
+  ui->statusBar->showMessage("Путь:  " + path);
 }

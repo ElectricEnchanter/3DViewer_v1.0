@@ -54,7 +54,6 @@ class OPGWidget : public QOpenGLWidget {
   void setFilePath(QString newFilePath);
   QSlider *zoomPointer;
   QDoubleSpinBox *spinPointer[3];
-  // this->spinPointer->setValue(newX);
   void setPointColor(float r, float g, float b, float a);
   void setLineColor(float r, float g, float b, float a);
   void setBgColor(float r, float g, float b, float a);
@@ -67,6 +66,7 @@ class OPGWidget : public QOpenGLWidget {
   int getAutorotate();
 
  private:
+  QString filePath = "";
   QString file_name = "";
   QTimer tmr;
   QPoint mPos;
