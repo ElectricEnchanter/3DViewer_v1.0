@@ -87,12 +87,9 @@ class MainWindow : public QMainWindow {
   QSettings *settings;
   QGifImage *pgif;
   QTimer *gif_timer;
-  //  int time;
-  //  QTimer *timeqr;
 
  public slots:
   void getNameChange(QString newName);
-  //  void tipSlot();
 };
 
 #endif  // MAINWINDOW_H
