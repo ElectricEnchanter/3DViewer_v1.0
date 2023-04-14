@@ -268,13 +268,13 @@ void MainWindow::saveSettings() {
   settings->setValue("Rot Z", ui->widget->getzRot());
 
   settings->setValue("File Path", ui->widget->getFilePath());
-  qDebug() << settings->value("File Path", 0).toString();
+  qDebug() << "path save" << settings->value("File Path", 0).toString();
 
   settings->setValue("File Name", ui->fileName->text());
 }
 
 void MainWindow::loadSettings() {
-  settings = new QSettings("3DViewer_v1", "3DViewer Settings", this);
+  settings = new QSettings("3DView", "3DViewer Settings", this);
 
   if (settings->status() == QSettings::NoError) {
     ui->boxFacets->setCurrentIndex(settings->value("Type Line", 0).toInt());
@@ -286,11 +286,10 @@ void MainWindow::loadSettings() {
     ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
     ui->fileName->setText(settings->value("File Name", 0).toString());
     ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
-    QString s = settings->value("File Name", 0).toString();
-    qDebug() << s;
-    qDebug() << settings->value("File Path", 0).toString();
 
-    if (s != "0") drow(settings->value("File Path", 0).toString());
+    qDebug() << "path load" << settings->value("File Path", 0).toString();
+    QString s = settings->value("File Path", 0).toString();
+    if (s != "" && s != "0") drow(settings->value("File Path", 0).toString());
 
     float colorSet[4];
     for (int i = 0; i < 4; i++) {
