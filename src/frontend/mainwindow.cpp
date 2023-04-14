@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
           &MainWindow::on_saveGIF_clicked);
 
   connect(ui->widget, &OPGWidget::nameChange, this, &MainWindow::getNameChange);
-  //  settings = new QSettings("settings.ini", QSettings::IniFormat);
   loadSettings();
 
   ui->sliderZoom->setSliderPosition(ui->widget->getZoomSize() * 100);
@@ -260,7 +259,6 @@ void MainWindow::saveSettings() {
     settings->setValue(tmp, colorSet[i]);
   }
 
-  qDebug() << "333333";
   settings->setValue("Move X", ui->widget->getxMove());
   settings->setValue("Move Y", ui->widget->getyMove());
   settings->setValue("Move Z", ui->widget->getzMove());
@@ -269,11 +267,14 @@ void MainWindow::saveSettings() {
   settings->setValue("Rot Y", ui->widget->getyRot());
   settings->setValue("Rot Z", ui->widget->getzRot());
 
+  settings->setValue("File Path", ui->widget->getFilePath());
+  qDebug() << settings->value("File Path", 0).toString();
+
   settings->setValue("File Name", ui->fileName->text());
 }
 
 void MainWindow::loadSettings() {
-  settings = new QSettings("3DViewer_v1.00", "3DViewer Settings", this);
+  settings = new QSettings("3DViewer_v1", "3DViewer Settings", this);
 
   if (settings->status() == QSettings::NoError) {
     ui->boxFacets->setCurrentIndex(settings->value("Type Line", 0).toInt());
@@ -287,6 +288,8 @@ void MainWindow::loadSettings() {
     ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
     QString s = settings->value("File Name", 0).toString();
     qDebug() << s;
+    qDebug() << settings->value("File Path", 0).toString();
+
     if (s != "0") drow(settings->value("File Path", 0).toString());
 
     float colorSet[4];
