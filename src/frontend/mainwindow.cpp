@@ -24,8 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->widget->spinPointer[0] = ui->spinRotX;
   ui->widget->spinPointer[1] = ui->spinRotY;
   ui->widget->spinPointer[2] = ui->spinRotZ;
-
-  QString path = ui->widget->getFilePath();
+  QString path = settings->value("File Path", 0).toString();
   ui->statusBar->showMessage("Путь:  " + path);
 }
 
@@ -268,7 +267,6 @@ void MainWindow::saveSettings() {
   settings->setValue("Rot Z", ui->widget->getzRot());
 
   settings->setValue("File Path", ui->widget->getFilePath());
-  qDebug() << "path save" << settings->value("File Path", 0).toString();
 
   settings->setValue("File Name", ui->fileName->text());
 }
@@ -287,9 +285,12 @@ void MainWindow::loadSettings() {
     ui->fileName->setText(settings->value("File Name", 0).toString());
     ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
 
-    qDebug() << "path load" << settings->value("File Path", 0).toString();
     QString s = settings->value("File Path", 0).toString();
-    if (s != "" && s != "0") drow(settings->value("File Path", 0).toString());
+    if (s != "" && s != "0") {
+      drow(settings->value("File Path", 0).toString());
+      ui->widget->setFilePath(s);
+    }
+    ui->statusBar->showMessage("Путь:  " + s);
 
     float colorSet[4];
     for (int i = 0; i < 4; i++) {
@@ -333,6 +334,9 @@ void MainWindow::getNameChange(QString newName) {
   QFile f(newName);
   QFileInfo fileInfo(f.fileName());
   QString fileName(fileInfo.fileName());
+
+  QString path = ui->widget->getFilePath();
+  ui->statusBar->showMessage("Путь:  " + path);
 
   ui->fileName->setText(fileName);
   drow(newName);
