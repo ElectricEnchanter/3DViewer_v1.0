@@ -286,6 +286,7 @@ void MainWindow::loadSettings() {
     ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
 
     QString s = settings->value("File Path", 0).toString();
+    qDebug() << s;
     if (s != "" && s != "0") {
       drow(settings->value("File Path", 0).toString());
       ui->widget->setFilePath(s);

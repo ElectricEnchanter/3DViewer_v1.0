@@ -8,11 +8,13 @@
 </p>
 
 # 🧮 **About**
+This is a team project, the performers are listed in "Developers" section. \
 This application is written in C using the Qt framework.
 
 It's a application can display object files (.obj). \
+You can drag your file from finder and drop them into app. \
 You can move and rotate your object in space. \
-You can choose the size and the type of vertices/faces as well as their color\
+You can choose the size and the type of vertices/faces as well as their color.\
 You can choose the color of background. \
 You can take a screenshot in jpeg/bmp format. \
 You can make a GIF out of your object.
