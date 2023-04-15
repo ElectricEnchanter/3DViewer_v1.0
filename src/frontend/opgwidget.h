@@ -1,8 +1,6 @@
 #ifndef OPGWIDGET_H
 #define OPGWIDGET_H
 
-#define GL_SILENCE_DEPRECATION
-
 extern "C" {
 #include "../parser.h"
 }

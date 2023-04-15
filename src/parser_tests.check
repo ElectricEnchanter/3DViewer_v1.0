@@ -108,8 +108,6 @@
 
 #test func_remove_matrix_2
     int func_result = OK;
-    int rows  = 4;
-    int columns = 4;
     
     matrix_t matrix_3d;
     matrix_3d.matrix = NULL;
@@ -153,7 +151,6 @@
 
 #test func_remove_massive_of_polygons_2
     int func_result = OK;
-    int columns = 4;
     polygon_t *polygon = NULL;
 
     func_result = remove_massive_of_polygons(&polygon);
@@ -164,7 +161,7 @@
     obj.count_of_facets = 0;
     obj.count_of_vertex = 0;
 
-    char *fileName = {"./models/copy_skull.obj"};
+    char *fileName = {"../models/copy_skull.obj"};
 
     first_parcer_of_file(fileName, &obj);
 
@@ -185,7 +182,7 @@
     obj.count_of_facets = 0;
     obj.count_of_vertex = 0;
 
-    char *fileName = {"./models/cow.obj"};
+    char *fileName = {"../models/cow.obj"};
 
     first_parcer_of_file(fileName, &obj);
 

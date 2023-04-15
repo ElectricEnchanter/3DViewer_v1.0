@@ -119,7 +119,7 @@ void second_parcer_of_file(char *filename, main_struct *STRUC) {
   STRUC->matrix_3d.matrix[1] = 0;
   STRUC->matrix_3d.matrix[2] = 0;
 
-  unsigned int line_counter = 1;
+  int line_counter = 1;
 
   while (!feof(f)) {
     if (fgets(charCode, 1024, f)) {
