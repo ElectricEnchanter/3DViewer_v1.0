@@ -1,17 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
 
-//#include <QColorDialog>
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QSettings>
-#include <QStatusTipEvent>
 #include <QTimer>
 
-#include "OPENGL/gl.h"
-#include "OPENGL/glu.h"
 #include "opgwidget.h"
 #include "qgifimage.h"
 

@@ -282,16 +282,16 @@ void MainWindow::loadSettings() {
 
     ui->spinDotSize->setValue(settings->value("Dot Size", 0).toFloat());
     ui->spinLineSize->setValue(settings->value("Line Size", 0).toFloat());
-    ui->fileName->setText(settings->value("File Name", 0).toString());
     ui->widget->setZoomSize(settings->value("Zoom", 0).toFloat());
 
     QString s = settings->value("File Path", 0).toString();
-    qDebug() << s;
-    if (s != "" && s != "0") {
+    QFile a = s;
+    if (a.exists()) {
       drow(settings->value("File Path", 0).toString());
       ui->widget->setFilePath(s);
+      ui->statusBar->showMessage("Путь:  " + s);
+      ui->fileName->setText(settings->value("File Name", 0).toString());
     }
-    ui->statusBar->showMessage("Путь:  " + s);
 
     float colorSet[4];
     for (int i = 0; i < 4; i++) {
@@ -344,10 +344,14 @@ void MainWindow::getNameChange(QString newName) {
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-  ui->statusBar->showMessage("У самурая нет цели, только путь.");
+  if (event->type() == QMouseEvent::MouseButtonPress) {
+    ui->statusBar->showMessage("У самурая нет цели, только путь.");
+  }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
-  QString path = ui->widget->getFilePath();
-  ui->statusBar->showMessage("Путь:  " + path);
+  if (event->type() == QMouseEvent::MouseButtonRelease) {
+    QString path = ui->widget->getFilePath();
+    ui->statusBar->showMessage("Путь:  " + path);
+  }
 }

@@ -7,12 +7,12 @@
    <img src="https://img.shields.io/badge/App%20Version-1.0-blue" alt="App Version">
 </p>
 
-# 🧮 **About**
+# 🐮 **About**
 This is a team project, the performers are listed in "Developers" section. \
 This application is written in C using the Qt framework.
 
 It's a application can display object files (.obj). \
-You can drag your file from finder and drop them into app. \
+You can drag a file from finder and drop it into the app. \
 You can move and rotate your object in space. \
 You can choose the size and the type of vertices/faces as well as their color.\
 You can choose the color of background. \
@@ -29,9 +29,6 @@ You need to create a new object file by using Makefile:
 
 # 🧑🏼‍💻 **Developers**
 
-- [dionecar](https://github.com/PulpuDev)
-- [silviaju]
-- [aglantin]
-
-# 📭 **My contacts**
-✉️ E-mail: paranzind@mail.ru
+- [dionecar](https://github.com/ElectricEnchanter)
+- [silviaju](https://github.com/DuckyBread)
+- [aglantin]()

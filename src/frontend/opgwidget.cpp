@@ -57,11 +57,10 @@ void OPGWidget::paintGL() {
   // сюда прикрутить проекции
   // - управление видом проекции
   if (this->boxProjectionInd == 0)
-    //    glFrustum(-1, 1, -1, 1, -1, 600);
     glFrustum(-2, 2, -2, 2, -5, 100);
   else if (this->boxProjectionInd == 1)
-    //    glOrtho(-1, 1, -1, 1, -10, 1);
-    glOrtho(-2, 2, -2, 2, -5, 100);
+    glOrtho(-2, 2, -2, 2, 5, 1);
+  //    glFrustum(-2, 2, -2, 2, -100, 100);
 
   // points
   glPointSize(this->dotSize);
@@ -71,8 +70,8 @@ void OPGWidget::paintGL() {
     glDisable(GL_POINT_SMOOTH);
   }
 
-  if (this->boxVertexInd != 0) {                    // 0 0 1
-    glColor4f(rPoints, gPoints, bPoints, aPoints);  // - color points
+  if (this->boxVertexInd != 0) {
+    glColor4f(rPoints, gPoints, bPoints, aPoints);
     if (flag_first_start != 0) {
       glDrawArrays(GL_POINTS, 1, this->obj.count_of_vertex);
     }
@@ -95,13 +94,6 @@ void OPGWidget::paintGL() {
                      GL_UNSIGNED_INT, this->obj.polygons[i].vertex);
     }
   }
-  //  glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void OPGWidget::resizeGL(int w, int h) {
-  //  glViewport(0, 0, w, h);
-  //  glMatrixMode(GL_PROJECTION);
-  //  glLoadIdentity();
 }
 
 void OPGWidget::dragEnterEvent(QDragEnterEvent *event) { event->accept(); }

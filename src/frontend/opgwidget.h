@@ -2,13 +2,11 @@
 #define OPGWIDGET_H
 
 #define GL_SILENCE_DEPRECATION
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
+
 extern "C" {
 #include "../parser.h"
 }
 #include <QColorDialog>
-#include <QDir>
 #include <QDoubleSpinBox>
 #include <QDragEnterEvent>
 #include <QMainWindow>
@@ -68,7 +66,6 @@ class OPGWidget : public QOpenGLWidget {
  private:
   QString filePath = "";
   QString file_name = "";
-  QTimer tmr;
   QPoint mPos;
   int boxVertexInd = 2, boxFacetsInd = 0, boxProjectionInd = 0;
   float dotSize = 12, lineSize = 8;
@@ -89,7 +86,6 @@ class OPGWidget : public QOpenGLWidget {
   void mousePressEvent(QMouseEvent *) override;
   void mouseMoveEvent(QMouseEvent *) override;
 
-  void resizeGL(int w, int h) override;
   void initializeGL() override;
   void paintGL() override;
   void wheelEvent(QWheelEvent *event) override;
